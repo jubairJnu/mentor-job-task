@@ -7,14 +7,52 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
-  Button,
   Badge,
   Avatar,
+  Button,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GoogleLogin from "./home/GoogleLogin";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  CurrentUser,
+  logOut,
+  setUserInfo,
+} from "../redux/features/auth/authSlice";
+import LogOut from "./home/LogOut";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useGetUserInfoQuery } from "../redux/features/user/User.api";
+const auth = getAuth();
 const Header = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // If the user is signed in, dispatch action to update Redux store
+        const userInfo = {
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          email: user.email,
+        };
+        dispatch(setUserInfo({ user: userInfo, token: null }));
+      } else {
+        // If the user is signed out, dispatch action to clear user info from Redux store
+        dispatch(logOut());
+      }
+    });
+
+    // Clean up the observer on unmount
+    return () => unsubscribe();
+  }, [dispatch]);
+
+  const user = useSelector(CurrentUser);
+
+  // get user info
+
+  const { data: newUser, isLoading } = useGetUserInfoQuery(user && user.email);
+  console.log(newUser, "log user ingo");
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = ["Home", "Recipies", "Add Recipies"];
@@ -52,14 +90,21 @@ const Header = () => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="flex items-center gap-5">
-          <GoogleLogin />
-
-          <Badge content="5" color="primary">
-            <Avatar
-              radius="md"
-              src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
-            />
-          </Badge>
+          {user ? (
+            <>
+              <LogOut />
+              {newUser &&
+                newUser.data && ( // Check if newUser and its properties are defined
+                  <Badge content={newUser.data.coin} color="primary">
+                    <Avatar radius="md" src={newUser.data.photoURL} />
+                  </Badge>
+                )}
+            </>
+          ) : (
+            <>
+              <GoogleLogin />
+            </>
+          )}
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
