@@ -6,7 +6,7 @@ export const baseApi = createApi({
   reducerPath: "baseApi",
 
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://recipe-backend-beta.vercel.app",
   }),
 
   tagTypes: ["userinfo", "recipies"],
