@@ -6,11 +6,15 @@ import app from "../../../firebase.config";
 import { Button } from "@nextui-org/button";
 import { VerifyJwt } from "../utils/VerifyJwt";
 import { setUserInfo } from "../../redux/features/auth/authSlice";
+import { useSignUpUserMutation } from "../../redux/features/user/User.api";
 
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
 
+const googleProvider = new GoogleAuthProvider();
+// main component
 const GoogleLogin = () => {
+  const [register, { isLoading }] = useSignUpUserMutation();
+
   const dispatch = useDispatch();
 
   const handleGoogleSignIn = async () => {
@@ -18,7 +22,7 @@ const GoogleLogin = () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const loggedUser = result.user;
-      console.log(loggedUser, "after sign up");
+      // console.log(loggedUser, "after sign up");
       const userData = {
         displayName: loggedUser.displayName,
         photoURL: loggedUser.photoURL,
@@ -26,21 +30,9 @@ const GoogleLogin = () => {
         coin: 50,
       };
 
-      const response = await fetch("http://localhost:3000/user/sign-up", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to sign up");
-      }
-
-      const data = await response.json();
-      console.log(data, "user data after save into db");
-      const token = data.data.token;
+      const res = await register(userData).unwrap();
+      console.log(res, "user data after save into db");
+      const token = res.data.token;
       console.log(token, "token from res");
 
       const user = VerifyJwt(token);

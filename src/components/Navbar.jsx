@@ -9,53 +9,29 @@ import {
   Link,
   Badge,
   Avatar,
-  Button,
+  Spinner,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GoogleLogin from "./home/GoogleLogin";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  CurrentUser,
-  logOut,
-  setUserInfo,
-} from "../redux/features/auth/authSlice";
+import { useSelector } from "react-redux";
+import { CurrentToken, CurrentUser } from "../redux/features/auth/authSlice";
 import LogOut from "./home/LogOut";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 import { useGetUserInfoQuery } from "../redux/features/user/User.api";
-const auth = getAuth();
+
 const Header = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // If the user is signed in, dispatch action to update Redux store
-        const userInfo = {
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          email: user.email,
-        };
-        dispatch(setUserInfo({ user: userInfo, token: null }));
-      } else {
-        // If the user is signed out, dispatch action to clear user info from Redux store
-        dispatch(logOut());
-      }
-    });
-
-    // Clean up the observer on unmount
-    return () => unsubscribe();
-  }, [dispatch]);
-
   const user = useSelector(CurrentUser);
+  const token = useSelector(CurrentToken);
 
   // get user info
 
   const { data: newUser, isLoading } = useGetUserInfoQuery(user && user.email);
-  console.log(newUser, "log user ingo");
+  // console.log(newUser, "log user ingo");
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = ["Home", "Recipies", "Add Recipies"];
+  const menuLinks = ["/", "/recipies", "/add-recipe"];
   return (
     <Navbar
       onMenuOpenChange={setIsMenuOpen}
@@ -67,38 +43,42 @@ const Header = () => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">ACME</p>
+          <p className="font-bold text-inherit">Foodies</p>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem className="font-semibold">
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="/">
             Home
           </Link>
         </NavbarItem>
         <NavbarItem className="font-semibold">
-          <Link href="#" color="foreground" aria-current="page">
+          <Link href="/recipies" color="foreground" aria-current="page">
             Recipies
           </Link>
         </NavbarItem>
         <NavbarItem className="font-semibold">
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="/add-recipe">
             Add Recipies
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="flex items-center gap-5">
-          {user ? (
+          {user && token ? (
             <>
               <LogOut />
-              {newUser &&
+              {isLoading ? (
+                <Spinner color="primary" />
+              ) : (
+                newUser &&
                 newUser.data && ( // Check if newUser and its properties are defined
                   <Badge content={newUser.data.coin} color="primary">
                     <Avatar radius="md" src={newUser.data.photoURL} />
                   </Badge>
-                )}
+                )
+              )}
             </>
           ) : (
             <>
@@ -119,7 +99,7 @@ const Header = () => {
                   : "foreground"
               }
               className="w-full"
-              href="#"
+              href={menuLinks[index]}
               size="lg"
             >
               {item}
