@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logOut } from "../redux/features/auth/authSlice";
 // Adjust the import based on your file structure
-
+//https://recipe-backend-6vmn.onrender.com
+//http://localhost:3000
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://recipe-backend-6vmn.onrender.com",
   credentials: "include",

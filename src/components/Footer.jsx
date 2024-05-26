@@ -51,13 +51,16 @@ const Footer = () => {
                 <TbWorldCode />
               </span>{" "}
             </Link>
-            <Link to="https://jubair-abdullah.vercel.app/" target="_blank">
+            <Link
+              to="https://www.linkedin.com/in/jubairabdullah/"
+              target="_blank"
+            >
               {" "}
               <span>
                 <FaLinkedin />
               </span>{" "}
             </Link>
-            <Link to="https://jubair-abdullah.vercel.app/" target="_blank">
+            <Link to="https://github.com/jubairJnu" target="_blank">
               {" "}
               <span>
                 <FaGithub />
