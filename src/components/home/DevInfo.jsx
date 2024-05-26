@@ -11,9 +11,9 @@ const DevInfo = () => {
       <div className="flex w-full flex-col ">
         <Tabs aria-label="Options" color="primary" variant="bordered">
           <Tab key="photos" title="Education">
-            <Card>
+            <Card >
               <CardBody>
-                <div className="flex justify-between items-center bg-slate-200 p-5 rounded">
+                <div className="flex justify-between items-center shadow-[5px_1px_10px_1px_rgba(0,0,0,0.3)]  p-5 rounded">
                   <div>
                     <p className="text-lg font-bold">
                       B.S.S Honors{" "}
@@ -25,7 +25,7 @@ const DevInfo = () => {
                 </div>
 
                 {/* hsc */}
-                <div className="flex justify-between items-center bg-primary-100 p-5 rounded my-5">
+                <div className="flex justify-between items-center shadow-[5px_1px_10px_1px_rgba(0,0,0,0.3)]  p-5 rounded my-5">
                   <div>
                     <p className="text-lg font-bold">HSC</p>
                     <p className="text-lg ">Cantonment College, Jashore</p>
@@ -33,7 +33,7 @@ const DevInfo = () => {
                   <p className="text-lg font-semibold">2018 - 2020</p>
                 </div>
                 {/* ssc */}
-                <div className="flex justify-between items-center bg-danger-50 p-5 rounded my-5">
+                <div className="flex justify-between items-center shadow-[5px_1px_10px_1px_rgba(0,0,0,0.3)]  p-5 rounded my-5">
                   <div>
                     <p className="text-lg font-bold">SSC</p>
                     <p className="text-lg ">Jaforia Madrasha</p>
@@ -60,7 +60,7 @@ const DevInfo = () => {
                     <span className="text-foreground ">
                       LMS:{" "}
                       <Link
-                        className="text-green-600"
+                        className="text-blue-600"
                         to="https://www.bdsoe.com/"
                       >
                         {" "}
@@ -72,7 +72,7 @@ const DevInfo = () => {
                     <span className="text-foreground ">
                       Hospital Management:{" "}
                       <Link
-                        className="text-green-600"
+                        className="text-blue-600"
                         to="https://www.dreamfourhospital.com/"
                       >
                         {" "}

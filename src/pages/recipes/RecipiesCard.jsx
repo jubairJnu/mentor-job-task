@@ -126,7 +126,7 @@ const RecipiesCard = ({ recipe }) => {
             onClick={() => handleAccess(recipe)}
             color="danger"
             size="md"
-            className="w-[380px] mx-auto text-center  mt-2"
+            className="w-[380px]  text-center  mt-2"
           >
             {isLoading ? <Spinner color="primary" /> : "View The Recipe"}
           </Button>

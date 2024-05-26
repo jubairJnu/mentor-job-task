@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="bg-[#F8F9FA] min-h-14">
-      <div className="w-full max-w-7xl px-5 mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:justify-items-center">
+    <div className="bg-[#F8F9FA] min-h-14 mt-10">
+      <div className="w-full max-w-7xl px-5 mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:justify-items-center py-5">
         {/* about section */}
         <div>
           <p className="text-primary text-lg font-bold">About Me</p>

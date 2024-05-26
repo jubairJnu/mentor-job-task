@@ -7,7 +7,7 @@ const recipesApi = baseApi.injectEndpoints({
     //
     getAllRecipes: builder.query({
       query: (queryInfo) => ({
-        url: `/recipe/?name=${queryInfo?.name}&category=${queryInfo?.category}&country=${queryInfo?.country}`,
+        url: `/recipe/?page=${queryInfo?.page}&name=${queryInfo?.name}&category=${queryInfo?.category}&country=${queryInfo?.country}`,
         method: "GET",
         // body: queryInfo,
       }),

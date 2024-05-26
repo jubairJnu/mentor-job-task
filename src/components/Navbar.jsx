@@ -43,7 +43,7 @@ const Header = () => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">Foodies</p>
+          <p className="font-bold text-primary text-lg">Foodies</p>
         </NavbarBrand>
       </NavbarContent>
 
