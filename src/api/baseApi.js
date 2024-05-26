@@ -4,7 +4,7 @@ import { logOut } from "../redux/features/auth/authSlice";
 //https://recipe-backend-6vmn.onrender.com
 //http://localhost:3000
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://recipe-backend-6vmn.onrender.com",
+  baseUrl: "https://recipe-backend-beta.vercel.app",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
