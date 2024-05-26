@@ -49,15 +49,19 @@ const AllRecipies = () => {
   };
 
   useEffect(() => {
-    if (receipes) {
-      setItems((prevItems) => [...prevItems, ...receipes.data.data]);
+    if (receipes && receipes.data.data) {
+      if (page === 1) {
+        // If it's the first page, set the items directly
+        setItems(receipes.data.data);
+      } else {
+        // If it's not the first page, append the new items to the existing ones
+        setItems((prevItems) => [...prevItems, ...receipes.data.data]);
+      }
     }
-  }, [receipes]);
+  }, [receipes, page]);
 
   const fetchMoreData = () => {
-    if (items.length < receipes?.data?.totalCount) {
-      setPage((prevPage) => prevPage + 1);
-    }
+    setPage((prevPage) => prevPage + 1);
   };
 
   const hasMore = items.length < receipes?.data?.totalCount;
@@ -67,7 +71,7 @@ const AllRecipies = () => {
   return (
     <div>
       <h1 className="text-center text-3xl font-bold my-5">All Recipies</h1>
-      <h1>total : {receipes?.data?.totalCount} </h1>
+
       {/* search here */}
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-10 w-full max-w-7xl px-5 mx-auto">
@@ -101,10 +105,12 @@ const AllRecipies = () => {
           ))}
         </Select>
       </div>
-
+      <h1 className="text-lg font-bold text-foreground-500 px-10 pt-5">
+        Total Recipes: {receipes?.data?.totalCount}{" "}
+      </h1>
       {isFetching && page === 1 ? (
         <Spinner color="primary" className="text-center" />
-      ) : receipes?.data?.totalCount >= 2 ? (
+      ) : receipes?.data?.totalCount >= 10 ? (
         <InfiniteScroll
           dataLength={items?.length}
           next={fetchMoreData}

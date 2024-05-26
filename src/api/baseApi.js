@@ -3,7 +3,7 @@ import { logOut } from "../redux/features/auth/authSlice";
 // Adjust the import based on your file structure
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:3000",
+  baseUrl: "https://recipe-backend-6vmn.onrender.com",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;

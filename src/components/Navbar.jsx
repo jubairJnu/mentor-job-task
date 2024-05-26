@@ -74,8 +74,8 @@ const Header = () => {
               ) : (
                 newUser &&
                 newUser.data && ( // Check if newUser and its properties are defined
-                  <Badge content={newUser.data.coin} color="primary">
-                    <Avatar radius="md" src={newUser.data.photoURL} />
+                  <Badge content={newUser?.data?.coin} color="primary">
+                    <Avatar radius="md" src={newUser?.data?.photoURL} />
                   </Badge>
                 )
               )}
