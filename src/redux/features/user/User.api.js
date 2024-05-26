@@ -10,7 +10,7 @@ const usersApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      providesTags: ["userinfo"],
+      providesTags: ["userinfo", "homedata"],
     }),
 
     //get
@@ -32,6 +32,17 @@ const usersApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["userinfo", "recipies"],
     }),
+
+    // purchase coin
+
+    purchaseCoin: builder.mutation({
+      query: (options) => ({
+        url: `/user/purchase-coin/${options.email}`,
+        method: "PATCH",
+        body: { data: options.data },
+      }),
+      invalidatesTags: ["userinfo"],
+    }),
   }),
 });
 
@@ -39,4 +50,5 @@ export const {
   useGetUserInfoQuery,
   usePurchaseRecipeMutation,
   useSignUpUserMutation,
+  usePurchaseCoinMutation,
 } = usersApi;

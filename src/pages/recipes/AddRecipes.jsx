@@ -123,7 +123,7 @@ const AddRecipes = () => {
         });
       }
 
-      console.log(res, "recipe data after save");
+      // console.log(res, "recipe data after save");
       reset();
       // Handle successful recipe addition here (e.g., show a success message)
     } catch (error) {

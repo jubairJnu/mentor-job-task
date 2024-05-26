@@ -7,7 +7,9 @@ const Banner = () => {
     <div className="relative">
       <img src={bannerImg} alt="banner" className="md:py-6 py-12 " />
       <div className="flex gap-10 absolute top-1/2 right-10 md:right-28">
-        <Button color="secondary">See recipes</Button>
+        <Link to="/recipies">
+          <Button color="secondary">See recipes</Button>
+        </Link>
         <Link to="/add-recipe">
           <Button color="danger">Add Recipes</Button>
         </Link>

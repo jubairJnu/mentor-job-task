@@ -3,12 +3,16 @@ import { baseApi } from "../../../api/baseApi";
 const recipesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     //get active batch
+
+    //
     getAllRecipes: builder.query({
-      query: () => ({
-        url: "/recipe",
+      query: (queryInfo) => ({
+        url: `/recipe/?name=${queryInfo?.name}&category=${queryInfo?.category}&country=${queryInfo?.country}`,
         method: "GET",
+        // body: queryInfo,
       }),
-      providesTags: ["recipies"],
+
+      providesTags: ["recipes"],
     }),
 
     // get singel
@@ -37,7 +41,7 @@ const recipesApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["recipies"],
+      invalidatesTags: ["recipies", "homedata"],
     }),
   }),
 });

@@ -5,6 +5,7 @@ import AddRecipes from "../pages/recipes/AddRecipes";
 import AllRecipies from "../pages/recipes/AllRecipies";
 import ProtectedRoutes from "./ProtectedRoutes";
 import RecipeDetails from "../pages/recipes/RecipeDetails";
+import AllCoin from "../pages/purchaseCoin/AllCoin";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <AddRecipes />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/purchase-coins",
+        element: (
+          <ProtectedRoutes>
+            <AllCoin />
           </ProtectedRoutes>
         ),
       },

@@ -2,7 +2,7 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Button, Image, Spinner } from "@nextui-org/react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CurrentUser } from "../../redux/features/auth/authSlice";
 import {
   useGetUserInfoQuery,
@@ -126,7 +126,7 @@ const RecipiesCard = ({ recipe }) => {
             onClick={() => handleAccess(recipe)}
             color="danger"
             size="md"
-            className="w-[400px]  mt-2"
+            className="w-[380px] mx-auto text-center  mt-2"
           >
             {isLoading ? <Spinner color="primary" /> : "View The Recipe"}
           </Button>

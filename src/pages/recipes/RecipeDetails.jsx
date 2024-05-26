@@ -1,13 +1,19 @@
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Button, Image, Spinner } from "@nextui-org/react";
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import {
   useGetSameCategoryRecipeQuery,
   useGetSingleRecipesQuery,
 } from "../../redux/features/receipes/Recipe.api";
 
 const RecipeDetails = () => {
+  const [isLove, setIsLove] = useState(false);
+
+  const handleLoveChange = () => {
+    setIsLove((prev) => !prev);
+  };
+
   const url = new URL(window.location.href);
   const pathname = url.pathname;
   const parts = pathname.split("/");
@@ -15,10 +21,10 @@ const RecipeDetails = () => {
   const { data: recipeDetails, isLoading } = useGetSingleRecipesQuery(id && id);
 
   const category = recipeDetails && recipeDetails?.data?.category;
-  console.log(category, "ctt");
+  // console.log(category, "ctt");
   const { data: sameCategoryRecipes, isLoading: categoryLoading } =
     useGetSameCategoryRecipeQuery(category);
-  console.log(sameCategoryRecipes, "same");
+  // console.log(sameCategoryRecipes, "same");
 
   if (isLoading) {
     <Spinner color="primary" />;
@@ -32,7 +38,7 @@ const RecipeDetails = () => {
       </h1>
       <Card className="py-4  w-full max-w-7xl mx-auto px-5 ">
         <div className="flex flex-col md:flex-row justify-between gap-10  items-start">
-          <CardBody className="overflow-visible p-4 mx-auto  shadow-[5px_1px_10px_1px_rgba(0,0,0,0.3)]  rounded w-1/2 ">
+          <CardBody className="overflow-visible p-4 mx-auto  shadow-[5px_1px_10px_1px_rgba(0,0,0,0.3)]  rounded flex-1 ">
             <div className="flex flex-col md:flex-row gap-10">
               <Image
                 alt="Card background"
@@ -49,7 +55,7 @@ const RecipeDetails = () => {
                 <h4 className="font-bold text-large  text-foreground-700 my-4">
                   Category:{" "}
                   <span className="text-foreground-500">
-                    {recipeDetails?.data?.name}
+                    {recipeDetails?.data?.category}
                   </span>
                 </h4>
                 <h4 className="font-bold text-large  text-foreground-700 my-4">
@@ -87,6 +93,20 @@ const RecipeDetails = () => {
                 {recipeDetails?.data?.watchCount}
               </span>
             </p>
+            <Button isIconOnly onClick={handleLoveChange} aria-label="Like">
+              {isLove ? (
+                <Button
+                  isIconOnly
+                  onClick={handleLoveChange}
+                  color="danger"
+                  aria-label="Like"
+                >
+                  <FaHeart />
+                </Button>
+              ) : (
+                <FaRegHeart />
+              )}
+            </Button>
           </div>
         </div>
         <div className="border border-foreground-200 p-2 my-5 rounded-md">
@@ -106,33 +126,39 @@ const RecipeDetails = () => {
           ) : (
             sameCategoryRecipes?.data?.length > 0 &&
             sameCategoryRecipes?.data?.map((item) => (
-              <Card
-                key={item._id}
-                isFooterBlurred
-                className="w-full max-w-[250px] h-[240px] col-span-12 sm:col-span-5"
-              >
-                <CardHeader className="absolute z-10 top-1 flex-col items-start"></CardHeader>
-                <Image
-                  removeWrapper
-                  alt="Card example background"
-                  className="z-0 w-full h-full scale-125 -translate-y-6 object-cover"
-                  src={item?.photoUrl}
-                />
-                <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
-                  <div>
-                    <p className="text-black text-tiny">{item?.name}</p>
-                    <p className="text-black text-tiny">{item?.category}.</p>
-                  </div>
-                  <Button
-                    className="text-tiny"
-                    color="primary"
-                    radius="full"
-                    size="sm"
-                  >
-                    Purchase Now
-                  </Button>
-                </CardFooter>
-              </Card>
+              <div className=" gap-6 justify-items-center" key={item._id}>
+                <Card
+                  key={item._id}
+                  isFooterBlurred
+                  className="w-[160px] md:w-[250px] h-[170px] md:h-[240px] col-span-12 sm:col-span-5 flex"
+                >
+                  <CardHeader className="absolute z-10 top-1 flex-col items-start"></CardHeader>
+                  <Image
+                    removeWrapper
+                    alt="Card example background"
+                    className="z-0 w-full h-full scale-125 -translate-y-6 object-cover"
+                    src={item?.photoUrl}
+                  />
+                  <CardFooter className="absolute bg-white/30 bottom-0 border-t-1 border-zinc-100/50 z-10 justify-between">
+                    <div className="flex flex-col md:flex-row justify-between md:gap-4">
+                      <div>
+                        <p className="text-black text-tiny">{item?.name}</p>
+                        <p className="text-black text-tiny">
+                          {item?.category}.
+                        </p>
+                      </div>
+                      <Button
+                        className="text-tiny mt-1 md:mt-0"
+                        color="primary"
+                        radius="full"
+                        size="sm"
+                      >
+                        Purchase Now
+                      </Button>
+                    </div>
+                  </CardFooter>
+                </Card>
+              </div>
             ))
           )}
         </div>
