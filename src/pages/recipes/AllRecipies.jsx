@@ -27,7 +27,7 @@ const AllRecipies = () => {
     isLoading,
     isFetching,
   } = useGetAllRecipesQuery(searchData && searchData);
-  console.log(receipes, "recipe");
+  // console.log(receipes, "recipe");
   // console.log(name, "name", country, "cour", category, "cate");
 
   let timeoutId;
@@ -60,13 +60,29 @@ const AllRecipies = () => {
     }
   }, [receipes, page]);
 
+  // clear if chage
+
   const fetchMoreData = () => {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const hasMore = items.length < receipes?.data?.totalCount;
+  const filteredItemsSet = new Set();
+  items.forEach((recipe) => {
+    if (
+      recipe.name.toLowerCase().includes(name.toLowerCase()) &&
+      recipe.country.toLowerCase().includes(country.toLowerCase()) &&
+      (category ? recipe.category === category : true)
+    ) {
+      filteredItemsSet.add(recipe._id); 
+    }
+  });
 
-  console.log(items.length, "leng");
+  
+  const filteredItems = Array.from(filteredItemsSet).map((id) =>
+    items.find((recipe) => recipe._id === id)
+  );
+
+  const hasMore = items.length < receipes?.data?.totalCount;
 
   return (
     <div>
@@ -123,14 +139,14 @@ const AllRecipies = () => {
           }
         >
           <div className="mt-10 w-full flex flex-col gap-5">
-            {items?.map((recipe) => (
+            {filteredItems?.map((recipe) => (
               <RecipiesCard key={recipe._id} recipe={recipe} />
             ))}
           </div>
         </InfiniteScroll>
       ) : (
         <div className="mt-10 w-full flex flex-col gap-5">
-          {items?.map((recipe) => (
+          {filteredItems?.map((recipe) => (
             <RecipiesCard key={recipe._id} recipe={recipe} />
           ))}
         </div>
